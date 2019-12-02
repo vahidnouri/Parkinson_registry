@@ -1,107 +1,299 @@
 # -*- coding: utf-8 -*-
 
-
-
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8') 
-from cStringIO import StringIO
-import csv
-
-
-#import pandas as pd
-ui = dict(widget='',
-          header='',
-          content='',
-          default='',
-          cornerall='',
-          cornertop='',
-          cornerbottom='',
-          button='button btn btn-default',
-          buttontext='buttontext button',
-          #buttonadd='icon plus icon-plus glyphicon glyphicon-plus',
-          #buttonback='icon leftarrow icon-arrow-left glyphicon glyphicon-arrow-left',
-          #buttonexport='icon downarrow icon-download glyphicon glyphicon-download',
-          #buttondelete='icon trash icon-trash glyphicon glyphicon-trash',
-          #buttonedit='icon pen icon-pencil glyphicon glyphicon-arrow-pencil',
-          #buttontable='icon rightarrow icon-arrow-right glyphicon glyphicon-arrow-right',
-          #buttonview='icon magnifier icon-zoom-in glyphicon glyphicon-arrow-zoom-in',
-          )
-
-  
-
-
-class CSVExporter(object):
-
-    file_ext = "csv"
-    content_type = "text/csv"
-
-    def __init__(self, rows):
-        self.rows = rows
- 
-
-    def export(self):
-        if self.rows:
-            s = StringIO()
-            
-            csv_writer = csv.writer(s)
-            #form = SQLFORM(db.people)
-            #col = []
-            #for f in form.fields:
-            #    col.append(form.custom.label[f])
-            col = self.rows.colnames    
-            
-            
-                
-            heading = [c.split('.')[-1].upper() for c in col]
-            csv_writer.writerow(heading)
-            self.rows.export_to_csv_file(s, represent=True, write_colnames=False)
-            return s.getvalue()
-        else:
-            return ''
-
 def index():
-    grid = SQLFORM.grid(db.people,
-        #fields=[db.people.f_name,db.people.id_code,],
-        advanced_search = False,
-        user_signature = False,
-        csv = True,
-        #showbuttontext = False,
-        exportclasses=dict(csv=(CSVExporter, 'CSV')),
-        #ui = ui,
+    form = FORM(
+        INPUT(_type='submit', _value='CSV', _class='btn btn-secondary float-right'),
+        _action='default/output.csv'
     )
-    return locals()
-"""
-def download():
-    form = FORM(INPUT(_type='submit', _value='download'), _action='download.csv')
     if request.extension == 'csv':
-        return get_csv()
+        return csv()
+    links = [
+        lambda r: A('پذیرش', _href=URL("default", "reception_section", args=[r.id_code])),
+        lambda r: A('بیمار', _href=URL("default", "patient_section", args=[r.id_code])),
+        lambda r: A('پزشک', _href=URL("default", "physician_section", args=[r.id_code])),
+        lambda r: A('آزمایشگاه', _href=URL("default", "lab_section", args=[r.id_code])),
+        lambda r: A('ژنها 1 تا 10', _href=URL("default", "genes_1_10", args=[r.id_code])),
+        lambda r: A('ژنها 11 تا 20', _href=URL("default", "genes_11_20", args=[r.id_code])),
+        lambda r: A('ژنها 21 تا 30', _href=URL("default", "genes_21_30", args=[r.id_code])),
+        lambda r: A('ژنها 31 تا 40', _href=URL("default", "genes_31_40", args=[r.id_code])),
+        lambda r: A('ژنها 41 تا 50', _href=URL("default", "genes_41_50", args=[r.id_code])),
+        lambda r: A('ژنها 51 تا 60', _href=URL("default", "genes_51_60", args=[r.id_code])),
+        lambda r: A('ژنها 61 تا 70', _href=URL("default", "genes_61_70", args=[r.id_code])),
+        lambda r: A('ژنها 71 تا 80', _href=URL("default", "genes_71_80", args=[r.id_code])),
+        lambda r: A('ژنها 81 تا 90', _href=URL("default", "genes_81_90", args=[r.id_code])),
+        lambda r: A('ژنها 91 تا 100', _href=URL("default", "genes_91_100", args=[r.id_code])),
+        ]
+    grid = SQLFORM.grid(
+        db.principal_info,
+        advanced_search = False,
+        #deletable=False,
+        csv=False,
+        user_signature = False,
+        links = links,
+        )
+
+    return locals()
+
+def reception_section():
+    tbl = db.reception_section
+    #record = tbl(request.args(0))
+    record = db(tbl.id_code==request.args(0)).select().first()
+    form = SQLFORM(tbl,record)
+    form.vars.id_code = request.args(0)
+    if form.process().accepted:
+        #response.flash("Success") 
+        msg = 'success'
+        redirect(URL("default", "index"))
+    elif form.errors: 
+        msg = form.errors 
+        #response.flash("Error")
     return locals()
 
 
-def get_csv():
-    import xlwt 
-    book = xlwt.Workbook(encoding="utf-8")
-    sheet1 = book.add_sheet("Python Sheet 1") 
-    #sheet1.write(0, 0, "This is the First Cell of the First Sheet") 
-    #book.save("spreadsheet.csv")
-    form = SQLFORM(db.people)
-    record = 2
-    for num in range(record):
-        row = sheet1.row(num)
-        for field in form.fields:
-            value = form.custom.label[field]
-        #for index,col in form:
-        #    value = txt[index]
-            row.write(field, value)
-    #s = 'سلام'
-    #sheet1.write(0,0,s)
-    book.save("spreadsheet.csv")
-    #for c in s :
-    #s = s.replace(c, replacements[c])
+def patient_section():
+    tbl = db.patient_section
+    record = db(tbl.id_code==request.args(0)).select().first()
+    tbl.id.readable = False
+    form = SQLFORM(tbl,record)
+    form.vars.id_code = request.args(0)
+    if form.process().accepted:
+        #response.flash("Success") 
+        msg = 'success'
+        redirect(URL("default", "index"))
+    elif form.errors: 
+        msg = form.errors 
+        #response.flash("Error")       
+    return locals()    
 
 
-    return s.encode('utf8')
+def physician_section():
+    tbl = db.physician_section
+    record = db(tbl.id_code==request.args(0)).select().first()
+    tbl.id.readable = False
+    form = SQLFORM(tbl,record)
+    form.vars.id_code = request.args(0)
+    if form.process().accepted:
+        #response.flash("Success") 
+        msg = 'success'
+        redirect(URL("default", "index"))
+    elif form.errors: 
+        msg = form.errors 
+        #response.flash("Error")     
+    return locals()        
 
 
-"""
+def lab_section():
+    tbl = db.lab_section
+    record = db(tbl.id_code==request.args(0)).select().first()
+    tbl.id.readable = False
+    form = SQLFORM(tbl,record)
+    form.vars.id_code = request.args(0)
+    if form.process().accepted:
+        #response.flash("Success") 
+        msg = 'success'
+        redirect(URL("default", "index"))
+    elif form.errors: 
+        msg = form.errors 
+        #response.flash("Error")    
+    return locals() 
+
+
+def genes_1_10():
+    tbl = db.genes_1_10
+    record = db(tbl.id_code==request.args(0)).select().first()
+    tbl.id.readable = False
+    form = SQLFORM(tbl,record)
+    form.vars.id_code = request.args(0)
+    if form.process().accepted:
+        #response.flash("Success") 
+        msg = 'success'
+        redirect(URL("default", "index"))
+    elif form.errors: 
+        msg = form.errors 
+        #response.flash("Error")    
+    return locals() 
+
+
+def genes_11_20():
+    tbl = db.genes_11_20
+    record = db(tbl.id_code==request.args(0)).select().first()
+    tbl.id.readable = False
+    form = SQLFORM(tbl,record)
+    form.vars.id_code = request.args(0)
+    if form.process().accepted:
+        #response.flash("Success") 
+        msg = 'success'
+        redirect(URL("default", "index"))
+    elif form.errors: 
+        msg = form.errors 
+        #response.flash("Error")    
+    return locals() 
+
+
+def genes_21_30():
+    tbl = db.genes_21_30
+    record = db(tbl.id_code==request.args(0)).select().first()
+    tbl.id.readable = False
+    form = SQLFORM(tbl,record)
+    form.vars.id_code = request.args(0)
+    if form.process().accepted:
+        #response.flash("Success") 
+        msg = 'success'
+        redirect(URL("default", "index"))
+    elif form.errors: 
+        msg = form.errors 
+        #response.flash("Error")    
+    return locals() 
+
+
+def genes_31_40():
+    tbl = db.genes_31_40
+    record = db(tbl.id_code==request.args(0)).select().first()
+    tbl.id.readable = False
+    form = SQLFORM(tbl,record)
+    form.vars.id_code = request.args(0)
+    if form.process().accepted:
+        #response.flash("Success") 
+        msg = 'success'
+        redirect(URL("default", "index"))
+    elif form.errors: 
+        msg = form.errors 
+        #response.flash("Error")    
+    return locals() 
+
+
+def genes_41_50():
+    tbl = db.genes_41_50
+    record = db(tbl.id_code==request.args(0)).select().first()
+    tbl.id.readable = False
+    form = SQLFORM(tbl,record)
+    form.vars.id_code = request.args(0)
+    if form.process().accepted:
+        #response.flash("Success") 
+        msg = 'success'
+        redirect(URL("default", "index"))
+    elif form.errors: 
+        msg = form.errors 
+        #response.flash("Error")    
+    return locals() 
+
+
+def genes_51_60():
+    tbl = db.genes_51_60
+    record = db(tbl.id_code==request.args(0)).select().first()
+    tbl.id.readable = False
+    form = SQLFORM(tbl,record)
+    form.vars.id_code = request.args(0)
+    if form.process().accepted:
+        #response.flash("Success") 
+        msg = 'success'
+        redirect(URL("default", "index"))
+    elif form.errors: 
+        msg = form.errors 
+        #response.flash("Error")    
+    return locals() 
+
+
+def genes_61_70():
+    tbl = db.genes_61_70
+    record = db(tbl.id_code==request.args(0)).select().first()
+    tbl.id.readable = False
+    form = SQLFORM(tbl,record)
+    form.vars.id_code = request.args(0)
+    if form.process().accepted:
+        #response.flash("Success") 
+        msg = 'success'
+        redirect(URL("default", "index"))
+    elif form.errors: 
+        msg = form.errors 
+        #response.flash("Error")    
+    return locals() 
+
+
+def genes_71_80():
+    tbl = db.genes_71_80
+    record = db(tbl.id_code==request.args(0)).select().first()
+    tbl.id.readable = False
+    form = SQLFORM(tbl,record)
+    form.vars.id_code = request.args(0)
+    if form.process().accepted:
+        #response.flash("Success") 
+        msg = 'success'
+        redirect(URL("default", "index"))
+    elif form.errors: 
+        msg = form.errors 
+        #response.flash("Error")    
+    return locals() 
+
+
+def genes_81_90():
+    tbl = db.genes_81_90
+    record = db(tbl.id_code==request.args(0)).select().first()
+    tbl.id.readable = False
+    form = SQLFORM(tbl,record)
+    form.vars.id_code = request.args(0)
+    if form.process().accepted:
+        #response.flash("Success") 
+        msg = 'success'
+        redirect(URL("default", "index"))
+    elif form.errors: 
+        msg = form.errors 
+        #response.flash("Error")    
+    return locals() 
+
+def genes_91_100():
+    tbl = db.genes_91_100
+    record = db(tbl.id_code==request.args(0)).select().first()
+    tbl.id.readable = False
+    form = SQLFORM(tbl,record)
+    form.vars.id_code = request.args(0)
+    if form.process().accepted:
+        #response.flash("Success") 
+        msg = 'success'
+        redirect(URL("default", "index"))
+    elif form.errors: 
+        msg = form.errors 
+        #response.flash("Error")    
+    return locals() 
+
+
+def output():
+    from os import path
+    data = ''
+
+    tables = [
+        (db.principal_info,1),
+        (db.reception_section,2),
+        (db.patient_section,2),
+        (db.physician_section,2),
+        (db.lab_section,2),
+        (db.genes_1_10,2),
+        (db.genes_11_20,2),
+        (db.genes_21_30,2),
+        (db.genes_31_40,2),
+        (db.genes_41_50,2),
+        (db.genes_51_60,2),
+        (db.genes_61_70,2),
+        (db.genes_71_80,2),
+        (db.genes_81_90,2),
+        (db.genes_91_100,2),
+        ]
+
+    field_name = [t[0].fields[t[1]:] for t in tables]
+    labels = [[f.label for f in t[0]][t[1]:] for t in tables]
+    header = ','.join([','.join(l) for l in labels])
+    data += header
+
+    for p in db(tables[0][0]).select():
+        rec = []
+        id_code = p.get('id_code')
+        for t in range(len(tables)):
+            r = db(tables[t][0].id_code == id_code).select().first()
+            for f in field_name[t]:
+                if r:
+                    v = r.get(f, '')
+                    rec.append('' if v == None else str(v))
+                else:
+                    rec.append('')
+        data += ('\n' + ','.join(rec))
+    return data
