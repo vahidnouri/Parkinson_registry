@@ -1,0 +1,267 @@
+{{extend 'layout.html'}}
+
+
+
+
+<div class="container">
+{{=form.custom.begin}}
+    {{for f in form.fields[1:4]:}}
+    <div class="row mb-2">
+        <div class="col-md-3">
+            {{=form.custom.label[f]}}
+        </div>
+        <div class="col-md-9">
+            {{=form.custom.widget[f]}}
+        </div>
+    </div>
+    {{pass}}
+
+    <div class="row justify-content-center">
+        <h3>
+            پرسشنامه خواب شریک زندگی
+        </h3>
+    </div>
+
+    {{for f in form.fields[4:35]:}}
+        <div class="row mb-2">
+            <div class="col-md-3" style="text-align:right">
+                {{=form.custom.label[f]}}
+            </div>
+            <div class="col-md-9">
+                {{=form.custom.widget[f]}}
+            </div>
+        </div>
+    {{pass}}
+
+    <div class="row justify-content-center">
+        <h3>
+            Freezing of gait
+        </h3>
+    </div>
+
+    {{for f in form.fields[35:42]:}}
+        <div class="row mb-2">
+            <div class="col-md-3" style="text-align:right">
+                {{=form.custom.label[f]}}
+            </div>
+            <div class="col-md-9">
+                {{=form.custom.widget[f]}}
+            </div>
+        </div>
+    {{pass}}    
+
+    <div class="row justify-content-center">
+        <h3>
+            NMS 30 items
+        </h3>
+    </div>
+
+    {{for f in form.fields[42:72]:}}
+        <div class="row mb-2">
+            <div class="col-md-3" style="text-align:right">
+                {{=form.custom.label[f]}}
+            </div>
+            <div class="col-md-9">
+                {{=form.custom.widget[f]}}
+            </div>
+        </div>
+    {{pass}}        
+
+    <div class="row justify-content-center">
+        <h3>
+            پرسشنامه Quip-any time During PD-Full 
+        </h3>
+    </div>
+
+    {{for f in form.fields[72:102]:}}
+        <div class="row mb-2">
+            <div class="col-md-3" style="text-align:right">
+                {{=form.custom.label[f]}}
+            </div>
+            <div class="col-md-9">
+                {{=form.custom.widget[f]}}
+            </div>
+        </div>
+    {{pass}}            
+
+
+    <div class="row justify-content-center">
+        <h3>
+            Beck Anxiety Inventory Short Form
+        </h3>
+    </div>
+
+    {{for f in form.fields[102:]:}}
+        <div class="row mb-2">
+            <div class="col-md-3" style="text-align:right">
+                {{=form.custom.label[f]}}
+            </div>
+            <div class="col-md-9">
+                {{=form.custom.widget[f]}}
+            </div>
+        </div>
+    {{pass}}            
+    
+    
+    {{=form.custom.submit}}
+{{=form.custom.end}}
+</div>
+<script type="text/javascript"></script>
+
+<script>
+
+// Partner sleep
+
+        if($('#patient_section_partner_sleep_5').prop('value') == 'بلی')
+                $('#patient_section_partner_sleep_5_1').show();
+                       
+        else 
+                $('#patient_section_partner_sleep_5_1').hide();                
+       $('#patient_section_partner_sleep_5').change(function(){
+        if($('#patient_section_partner_sleep_5').prop('value') == 'بلی')
+            $('#patient_section_partner_sleep_5_1').show();           
+        else 
+            $('#patient_section_partner_sleep_5_1').hide();           
+            });
+
+
+        if($('#patient_section_partner_sleep_8').prop('value') == 'بلی')
+                $('#patient_section_partner_sleep_8_1').show();                       
+        else 
+                $('#patient_section_partner_sleep_8_1').hide();                
+       $('#patient_section_partner_sleep_8').change(function(){
+        if($('#patient_section_partner_sleep_8').prop('value') == 'بلی')
+            $('#patient_section_partner_sleep_8_1').show();           
+        else 
+            $('#patient_section_partner_sleep_8_1').hide();           
+            });            
+
+
+
+
+
+// MSQ part 1:
+        if($('#patient_section_msq_1_1').prop('value') == 'بلی')
+                $('#patient_section_msq_1_2').show();
+                       
+        else 
+                $('#patient_section_msq_1_2').hide();                
+       $('#patient_section_msq_1_1').change(function(){
+        if($('#patient_section_msq_1_1').prop('value') == 'بلی')
+            $('#patient_section_msq_1_2').show();           
+        else 
+            $('#patient_section_msq_1_2').hide();           
+            });
+
+// MSQ part 2:
+        if($('#patient_section_msq_1_2').prop('value') == 'خیر')
+            $('#patient_section_msq_1_3').show();
+       else $('#patient_section_msq_1_3').hide();
+       $('#patient_section_msq_1_2').change(function(){
+            if($('#patient_section_msq_1_2').prop('value') == 'خیر')
+                $('#patient_section_msq_1_3').show();
+            else $('#patient_section_msq_1_3').hide();}); 
+
+// RDB part 1:
+            if($('#patient_section_rbd_1').prop('value') == 'بلی'){
+                $('#patient_section_rbd_1_a').show();
+                $('#patient_section_rbd_1_b').show();
+                $('#patient_section_rbd_1_c').show();
+                $('#patient_section_rbd_1_d').show();
+                $('#patient_section_rbd_1_e').show();   
+            }
+       else {
+             $('#patient_section_rbd_1_a').hide();
+             $('#patient_section_rbd_1_b').hide();
+             $('#patient_section_rbd_1_c').hide();
+             $('#patient_section_rbd_1_d').hide();
+             $('#patient_section_rbd_1_e').hide(); 
+            }    
+       $('#patient_section_rbd_1').change(function(){
+            if($('#patient_section_rbd_1').prop('value') == 'بلی'){
+                $('#patient_section_rbd_1_a').show();
+                $('#patient_section_rbd_1_b').show();
+                $('#patient_section_rbd_1_c').show();
+                $('#patient_section_rbd_1_d').show();
+                $('#patient_section_rbd_1_e').show();   
+            }
+            else {
+                $('#patient_section_rbd_1_a').hide();
+                $('#patient_section_rbd_1_b').hide();
+                $('#patient_section_rbd_1_c').hide();
+                $('#patient_section_rbd_1_d').hide();
+                $('#patient_section_rbd_1_e').hide();   
+            }
+            });
+
+// RLS Q3:
+        if($('#patient_section_rls_3').prop('value') == 'بلی'){
+                $('#patient_section_rls_3_a').show();
+                $('#patient_section_rls_3_b').show();
+            }
+       else {
+             $('#patient_section_rls_3_a').hide();
+             $('#patient_section_rls_3_b').hide();
+            }    
+       $('#patient_section_rls_3').change(function(){
+            if($('#patient_section_rls_3').prop('value') == 'بلی'){
+                $('#patient_section_rls_3_a').show();
+                $('#patient_section_rls_3_b').show();
+            }
+            else {
+                $('#patient_section_rls_3_a').hide();
+                $('#patient_section_rls_3_b').hide(); 
+            }
+            });
+// RLS Q6:            
+
+        if($('#patient_section_osa_6').prop('value') == 'بلی')
+                $('#patient_section_osa_6_a').show();                
+            
+       else 
+             $('#patient_section_osa_6_a').hide();                             
+       $('#patient_section_osa_6').change(function(){
+            if($('#patient_section_osa_6').prop('value') == 'بلی')
+                $('#patient_section_osa_6_a').show();            
+            else 
+                $('#patient_section_osa_6_a').hide();            
+            });          
+
+            $('#patient_section_b_1_1').add('#patient_section_b_1_2').add('#patient_section_b_1_3').add('#patient_section_b_1_3').add('#patient_section_b_1_4').add('#patient_section_b_1_5').add('#patient_section_b_1_6').change(function(){
+                b_1_1 = isNaN(parseInt($('#patient_section_b_1_1').find(":selected").text())) ? 0 : parseInt($('#patient_section_b_1_1').find(":selected").text())
+                b_1_2 = isNaN(parseInt($('#patient_section_b_1_2').find(":selected").text())) ? 0 : parseInt($('#patient_section_b_1_2').find(":selected").text())
+                b_1_3 = isNaN(parseInt($('#patient_section_b_1_3').find(":selected").text())) ? 0 : parseInt($('#patient_section_b_1_3').find(":selected").text())
+                b_1_4 = isNaN(parseInt($('#patient_section_b_1_4').find(":selected").text())) ? 0 : parseInt($('#patient_section_b_1_4').find(":selected").text())
+                b_1_5 = isNaN(parseInt($('#patient_section_b_1_5').find(":selected").text())) ? 0 : parseInt($('#patient_section_b_1_5').find(":selected").text())
+                b_1_6 = isNaN(parseInt($('#patient_section_b_1_6').find(":selected").text())) ? 0 : parseInt($('#patient_section_b_1_6').find(":selected").text())
+                $('#patient_section_freezing_total').val(b_1_1+b_1_2+b_1_3+b_1_4+b_1_5+b_1_6)
+            });
+
+
+            $('#patient_section_bai_1').add('#patient_section_bai_2').add('#patient_section_bai_3').add('#patient_section_bai_4').add('#patient_section_bai_5').add('#patient_section_bai_6').add('#patient_section_bai_7').add('#patient_section_bai_8').add('#patient_section_bai_9').add('#patient_section_bai_10').add('#patient_section_bai_11').add('#patient_section_bai_12').add('#patient_section_bai_13').add('#patient_section_bai_14').add('#patient_section_bai_15').add('#patient_section_bai_16').add('#patient_section_bai_17').add('#patient_section_bai_18').add('#patient_section_bai_19').add('#patient_section_bai_20').add('#patient_section_bai_21').change(function(){
+                bai_1 = isNaN(parseInt($('#patient_section_bai_1').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_1').find(":selected").text())
+                bai_2 = isNaN(parseInt($('#patient_section_bai_2').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_2').find(":selected").text())
+                bai_3 = isNaN(parseInt($('#patient_section_bai_3').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_3').find(":selected").text())
+                bai_4 = isNaN(parseInt($('#patient_section_bai_4').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_4').find(":selected").text())
+                bai_5 = isNaN(parseInt($('#patient_section_bai_5').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_5').find(":selected").text())
+                bai_6 = isNaN(parseInt($('#patient_section_bai_6').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_6').find(":selected").text())
+                bai_7 = isNaN(parseInt($('#patient_section_bai_7').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_7').find(":selected").text())
+                bai_8 = isNaN(parseInt($('#patient_section_bai_8').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_8').find(":selected").text())
+                bai_9 = isNaN(parseInt($('#patient_section_bai_9').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_9').find(":selected").text())
+                bai_10 = isNaN(parseInt($('#patient_section_bai_10').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_10').find(":selected").text())
+                bai_11 = isNaN(parseInt($('#patient_section_bai_11').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_11').find(":selected").text())
+                bai_12 = isNaN(parseInt($('#patient_section_bai_12').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_12').find(":selected").text())
+                bai_13 = isNaN(parseInt($('#patient_section_bai_13').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_13').find(":selected").text())
+                bai_14 = isNaN(parseInt($('#patient_section_bai_14').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_14').find(":selected").text())
+                bai_15 = isNaN(parseInt($('#patient_section_bai_15').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_15').find(":selected").text())
+                bai_16 = isNaN(parseInt($('#patient_section_bai_16').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_16').find(":selected").text())
+                bai_17 = isNaN(parseInt($('#patient_section_bai_17').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_17').find(":selected").text())
+                bai_18 = isNaN(parseInt($('#patient_section_bai_18').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_18').find(":selected").text())
+                bai_19 = isNaN(parseInt($('#patient_section_bai_19').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_19').find(":selected").text())
+                bai_20 = isNaN(parseInt($('#patient_section_bai_20').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_20').find(":selected").text())
+                bai_21 = isNaN(parseInt($('#patient_section_bai_21').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_21').find(":selected").text())
+                $('#patient_section_bai_total').val(bai_1+bai_2+bai_3+bai_4+bai_5+bai_6+bai_7+bai_8+bai_9+bai_10+bai_11+bai_12+bai_13+bai_14+bai_15+bai_16+bai_17+bai_18+bai_19+bai_20+bai_21)
+            });   
+
+
+</script>
