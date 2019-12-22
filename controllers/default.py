@@ -1,9 +1,19 @@
 # -*- coding: utf-8 -*-
 
+permission_denied = lambda: dict(msg='permission denied!')
+
+@auth.requires_login()
 def index():
+    if not permit('reception'):
+        return permission_denied()
+    msg = None
+
+    user = auth.user
+    deletable = auth.user.admin_
+
     form = FORM(
         INPUT(_type='submit', _value='CSV', _class='btn btn-secondary float-right'),
-        _action='default/output.csv'
+        _action=URL('default','output.csv')
     )
     if request.extension == 'csv':
         return csv()
@@ -23,18 +33,22 @@ def index():
         lambda r: A('ژنها 81 تا 90', _href=URL("default", "genes_81_90", args=[r.id_code])),
         lambda r: A('ژنها 91 تا 100', _href=URL("default", "genes_91_100", args=[r.id_code])),
         ]
+    db.principal_info.id.readable = False        
     grid = SQLFORM.grid(
         db.principal_info,
         advanced_search = False,
-        #deletable=False,
+        deletable=deletable,
         csv=False,
         user_signature = False,
         links = links,
         )
 
     return locals()
-
+@auth.requires_login()
 def reception_section():
+    if not permit('reception'):
+        return permission_denied()
+    msg = None    
     tbl = db.reception_section
     #record = tbl(request.args(0))
     record = db(tbl.id_code==request.args(0)).select().first()
@@ -49,8 +63,11 @@ def reception_section():
         #response.flash("Error")
     return locals()
 
-
+@auth.requires_login()
 def patient_section():
+    if not permit('patient'):
+        return permission_denied()
+    msg = None 
     tbl = db.patient_section
     record = db(tbl.id_code==request.args(0)).select().first()
     tbl.id.readable = False
@@ -58,6 +75,7 @@ def patient_section():
     form.vars.id_code = request.args(0)
     if form.process().accepted:
         #response.flash("Success") 
+        print(form.vars)
         msg = 'success'
         redirect(URL("default", "index"))
     elif form.errors: 
@@ -65,11 +83,16 @@ def patient_section():
         #response.flash("Error")       
     return locals()    
 
-
+@auth.requires_login()
 def physician_section():
+    if not permit('physician'):
+        return permission_denied()
+    msg = None 
     tbl = db.physician_section
     record = db(tbl.id_code==request.args(0)).select().first()
     tbl.id.readable = False
+    if db.reception_section.gender == "مرد":
+        check_gender = True
     form = SQLFORM(tbl,record)
     form.vars.id_code = request.args(0)
     if form.process().accepted:
@@ -81,8 +104,11 @@ def physician_section():
         #response.flash("Error")     
     return locals()        
 
-
+@auth.requires_login()
 def lab_section():
+    if not permit('lab'):
+        return permission_denied()
+    msg = None    
     tbl = db.lab_section
     record = db(tbl.id_code==request.args(0)).select().first()
     tbl.id.readable = False
@@ -97,8 +123,11 @@ def lab_section():
         #response.flash("Error")    
     return locals() 
 
-
+@auth.requires_login()
 def genes_1_10():
+    if not permit('genes'):
+        return permission_denied()
+    msg = None    
     tbl = db.genes_1_10
     record = db(tbl.id_code==request.args(0)).select().first()
     tbl.id.readable = False
@@ -113,8 +142,11 @@ def genes_1_10():
         #response.flash("Error")    
     return locals() 
 
-
+@auth.requires_login()
 def genes_11_20():
+    if not permit('genes'):
+        return permission_denied()
+    msg = None    
     tbl = db.genes_11_20
     record = db(tbl.id_code==request.args(0)).select().first()
     tbl.id.readable = False
@@ -129,8 +161,11 @@ def genes_11_20():
         #response.flash("Error")    
     return locals() 
 
-
+@auth.requires_login()
 def genes_21_30():
+    if not permit('genes'):
+        return permission_denied()
+    msg = None        
     tbl = db.genes_21_30
     record = db(tbl.id_code==request.args(0)).select().first()
     tbl.id.readable = False
@@ -145,8 +180,11 @@ def genes_21_30():
         #response.flash("Error")    
     return locals() 
 
-
+@auth.requires_login()
 def genes_31_40():
+    if not permit('genes'):
+        return permission_denied()
+    msg = None        
     tbl = db.genes_31_40
     record = db(tbl.id_code==request.args(0)).select().first()
     tbl.id.readable = False
@@ -161,8 +199,11 @@ def genes_31_40():
         #response.flash("Error")    
     return locals() 
 
-
+@auth.requires_login()
 def genes_41_50():
+    if not permit('genes'):
+        return permission_denied()
+    msg = None            
     tbl = db.genes_41_50
     record = db(tbl.id_code==request.args(0)).select().first()
     tbl.id.readable = False
@@ -177,8 +218,11 @@ def genes_41_50():
         #response.flash("Error")    
     return locals() 
 
-
+@auth.requires_login()
 def genes_51_60():
+    if not permit('genes'):
+        return permission_denied()
+    msg = None        
     tbl = db.genes_51_60
     record = db(tbl.id_code==request.args(0)).select().first()
     tbl.id.readable = False
@@ -193,8 +237,11 @@ def genes_51_60():
         #response.flash("Error")    
     return locals() 
 
-
+@auth.requires_login()
 def genes_61_70():
+    if not permit('genes'):
+        return permission_denied()
+    msg = None        
     tbl = db.genes_61_70
     record = db(tbl.id_code==request.args(0)).select().first()
     tbl.id.readable = False
@@ -209,8 +256,11 @@ def genes_61_70():
         #response.flash("Error")    
     return locals() 
 
-
+@auth.requires_login()
 def genes_71_80():
+    if not permit('genes'):
+        return permission_denied()
+    msg = None        
     tbl = db.genes_71_80
     record = db(tbl.id_code==request.args(0)).select().first()
     tbl.id.readable = False
@@ -225,8 +275,11 @@ def genes_71_80():
         #response.flash("Error")    
     return locals() 
 
-
+@auth.requires_login()
 def genes_81_90():
+    if not permit('genes'):
+        return permission_denied()
+    msg = None        
     tbl = db.genes_81_90
     record = db(tbl.id_code==request.args(0)).select().first()
     tbl.id.readable = False
@@ -241,7 +294,11 @@ def genes_81_90():
         #response.flash("Error")    
     return locals() 
 
+@auth.requires_login()
 def genes_91_100():
+    if not permit('genes'):
+        return permission_denied()
+    msg = None        
     tbl = db.genes_91_100
     record = db(tbl.id_code==request.args(0)).select().first()
     tbl.id.readable = False
@@ -256,9 +313,12 @@ def genes_91_100():
         #response.flash("Error")    
     return locals() 
 
-
+@auth.requires_login()
 def output():
     from os import path
+    if not permit('admin_'):
+        return permission_denied()
+    msg = None
     data = ''
 
     tables = [
@@ -292,8 +352,31 @@ def output():
             for f in field_name[t]:
                 if r:
                     v = r.get(f, '')
-                    rec.append('' if v == None else str(v))
+                    v = '' if v == None else str(v)
+                    v = v.replace(',', '_')
+                    v = v.replace('،', '_')
+                    rec.append(v)
                 else:
                     rec.append('')
         data += ('\n' + ','.join(rec))
-    return data
+    return data.replace('-', '_')
+
+
+def user():
+    return dict(form=auth())
+
+def permit(role):
+    if not db.auth_user(auth.user.get("id")).get(role):
+        if db.auth_user(auth.user.get("id")).get('admin_'):
+            return True
+        return False
+    return True
+
+@auth.requires_login()
+def userman():
+    if not permit('admin_'):
+        return permission_denied()
+    msg = None 
+    grid = SQLFORM.grid(db.auth_user,)
+    
+    return locals()
