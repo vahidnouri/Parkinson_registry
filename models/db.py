@@ -91,7 +91,16 @@ auth = Auth(db, host_names=configuration.get('host.names'))
 # -------------------------------------------------------------------------
 # create all tables needed by auth, maybe add a list of extra fields
 # -------------------------------------------------------------------------
-auth.settings.extra_fields['auth_user'] = []
+auth.settings.expiration = 3600 * 8  # seconds
+
+auth.settings.extra_fields['auth_user'] = [
+    Field("reception", type="boolean"),
+    Field("patient", type="boolean"),
+    Field("physician", type="boolean"),
+    Field("lab", type="boolean"),
+    Field("genes", type="boolean"),
+    Field("admin_", type="boolean"),
+]
 auth.define_tables( migrate=False )
 auth.define_tables(username=False, signature=False)
 
@@ -108,9 +117,9 @@ mail.settings.ssl = configuration.get('smtp.ssl') or False
 # -------------------------------------------------------------------------
 # configure auth policy
 # -------------------------------------------------------------------------
-auth.settings.registration_requires_verification = False
-auth.settings.registration_requires_approval = False
-auth.settings.reset_password_requires_verification = True
+auth.settings.registration_requires_verification = True
+auth.settings.registration_requires_approval = True
+auth.settings.reset_password_requires_verification = False
 
 # -------------------------------------------------------------------------  
 # read more at http://dev.w3.org/html5/markup/meta.name.html               
@@ -162,10 +171,10 @@ after_before = ["","قبل از 6 عصر","بعد از 6 عصر"]
 yes_no_none = ["","بلی","خیر","چیزی تعریف نمی کند"]
 yes_no_no_one = ["","بلی","خیر","همبستر ندارد"]
 life_conditions = ["","1.تنها","2.با خانواده","3. پرستار در منزل","4. مرکز نگهداری"]
-job_conditions = ["","1.آفت کش و سموم مورد استفاده کشاورزی","2. حلالهای شیمیایی","3. ترومای سر","4. سایر"]
+job_conditions = ["","آفت کش و سموم مورد استفاده کشاورزی","حلالهای شیمیایی","ترومای سر","سایر"]
 fab_score = ["","0","1","2","3"]
 sleep_times = ["","1-10","11-20","بیشتر از 20"]
-blood_type = ["","EDTA","Heparin","غیره"]
+blood_type = ["","EDTA","Heparin","سایر"]
 treat_scores = ["","1.فیزیوتراپی","2.کار درمانی","3.گفتار درمانی"]
 counsiousness = [""] + [i for i in range(11)]
 info_score = ["","Patient","Caregiver","Patient+Caregiver"]
@@ -199,7 +208,7 @@ for i in range(1,101):
 
 db.define_table("principal_info",
     Field("f_name", "string",label="نام و نام خانوادگی"),
-    Field("id_code", "string",label="کدملی"),
+    Field("id_code", "string",label="کدملی", required=True),
     migrate = False,
     fake_migrate=False,
     )
@@ -231,40 +240,39 @@ db.define_table("reception_section",
     Field("sibiling_numbers", "string",label="2.تعداد خواهر و برادر"),
     Field("children_numbers", "string",label="3.تعداد فرزندان"),
     Field("fr_4_1", requires=IS_IN_SET(yes_no, zero=None),label="4.فامیل درجه اول مبتلا به بیماری پارکینسون "),
-    Field("fr_4_2", "string",label="4.سن"),
+    Field("fr_4_2", "string",label="4.سن شروع"),
     Field("fr_5_1", requires=IS_IN_SET(yes_no, zero=None),label="5.فامیل درجه دوم  مبتلا به بیماری پارکینسون "),
-    Field("fr_5_2", "string",label="5.سن"),
+    Field("fr_5_2", "string",label="5.سن شروع"),
     Field("fr_6_1", requires=IS_IN_SET(yes_no, zero=None),label="6.فامیل درجه سوم مبتلا به بیماری پارکینسون  "),
-    Field("fr_6_2", "string",label="6.سن"),
+    Field("fr_6_2", "string",label="6.سن شروع"),
     Field("fr_7_1", requires=IS_IN_SET(yes_no, zero=None),label="7.فامیل درجه اول مبتلا به بیماری حرکتی "),
-    Field("fr_7_2", "string",label="7.سن"),
+    Field("fr_7_2", "string",label="7.سن شروع"),
     Field("fr_8_1", requires=IS_IN_SET(yes_no, zero=None),label="8.فامیل درجه دوم  مبتلا به بیماری حرکتی "),
-    Field("fr_8_2", "string",label="8.سن"),
+    Field("fr_8_2", "string",label="8.سن شروع"),
     Field("fr_9_1", requires=IS_IN_SET(yes_no, zero=None),label="9.فامیل درجه سوم مبتلا به بیماری حرکتی "),
-    Field("fr_9_2", "string",label="9.سن"),
+    Field("fr_9_2", "string",label="9.سن شروع"),
     Field("fr_10_1", requires=IS_IN_SET(yes_no, zero=None),label="10.فامیل درجه اول مبتلا به بیماری ذهنی "),
-    Field("fr_10_2", "string",label="10.سن"),
+    Field("fr_10_2", "string",label="10.سن شروع"),
     Field("fr_11_1", requires=IS_IN_SET(yes_no, zero=None),label="11.فامیل درجه دوم مبتلا به بیماری ذهنی"),
-    Field("fr_11_2", "string",label="11.سن"),
+    Field("fr_11_2", "string",label="11.سن شروع"),
     Field("fr_12_1", requires=IS_IN_SET(yes_no, zero=None),label="12.فامیل درجه سوم مبتلا به بیماری ذهنی"),
-    Field("fr_12_2", "string",label="12.سن"),
+    Field("fr_12_2", "string",label="12.سن شروع"),
     Field("fr_13_1", requires=IS_IN_SET(yes_no, zero=None),label="13.بیماری پارکینسون در سایر بستگان "),
-    Field("fr_13_2", "string",label="13.سن"),
+    Field("fr_13_2", "string",label="13.سن شروع"),
     Field("fr_13_3", "string",label="13.نسبت فرد مبتلا"),
     Field("fr_14_1", requires=IS_IN_SET(yes_no, zero=None),label="14.سایر بیماریهای نوروژنتیک در بستگان درجه اول  "),
-    Field("fr_14_2", "string",label="14.سن"),
+    Field("fr_14_2", "string",label="14.سن شروع"),
     Field("fr_14_3", "string",label="14.نسبت فرد مبتلا"),
     Field("fr_15_1", requires=IS_IN_SET(yes_no, zero=None),label="15.سایر بیماریهای نوروژنتیک در بستگان درجه دوم "),
-    Field("fr_15_2", "string",label="15.سن"),
+    Field("fr_15_2", "string",label="15.سن شروع"),
     Field("fr_15_3", "string",label="15.نسبت فرد مبتلا"),
     Field("fr_16_1", requires=IS_IN_SET(yes_no, zero=None),label="16.سایر بیماریهای نوروژنتیک در بستگان درجه سوم "),
-    Field("fr_16_2", "string",label="16.سن"),
+    Field("fr_16_2", "string",label="16.سن شروع"),
     Field("fr_16_3", "string",label="16.نسبت فرد مبتلا"),
-    Field("ped_draw_path", "string",label="مسیر عکس شجره"),
-
     Field("fr_17", requires=IS_IN_SET(yes_no, zero=None),label="سابقه ثبت یکی از بستگان در این رجیستری"),
     Field("check_id_code", "string",label="کد ملی"),
     Field("check_name", "string",label="نام و نام خانوادگی"),
+    Field("ped_draw_path", "string",label="مسیر عکس شجره"),
     
     Field("sr_cigar", requires=IS_IN_SET(yes_no, zero=None),label="سیگار"),
     Field("sr_cof", requires=IS_IN_SET(yes_no, zero=None),label="کافئین"),
@@ -287,8 +295,8 @@ db.define_table("reception_section",
 db.define_table("patient_section",
     Field("id_code", "string",label="کدملی", writable=False, readable = False),
     #Field("updr", "string",label="UPDRS"),
-    Field("mse", requires=IS_IN_SET(mschwab, zero=None),label="معیار فعالیت های روزانه"),
-    Field("eq", "string",label="کیفیت زندگی"),
+    Field("mse", requires=IS_IN_SET(mschwab, zero=None),label= "Schwab معیار فعالیت های روزانه "),
+    Field("eq", "string",label= "EQ-5D5L کیفیت زندگی"),
     Field("epworth", "string",label="Epworth معیار خواب"),
 
     #Field("partner_sleep","string",label=" خواب شریک زندگی"),   
@@ -304,9 +312,9 @@ db.define_table("patient_section",
     Field("partner_sleep_8_1","text",label="8.1.توضیح"),
     Field("partner_sleep_9", requires=IS_IN_SET(yes_no, zero=None),label="9.آیا فرد بیمار در طول روز به راحتی به خواب میرود؟"),
     Field("partner_sleep_9_1", requires=IS_IN_SET(yes_no, zero=None),label="9.1.آیا در هنگام رانندگی این اتفاق رخ داده است؟"),
-    Field("msq_1_1", requires=IS_IN_SET(yes_no, zero=None),label="MSQ 1.1"),
-    Field("msq_1_2", requires=IS_IN_SET(yes_no, zero=None),label="MSQ 1.2"),
-    Field("msq_1_3", requires=IS_IN_SET(yes_no, zero=None),label="MSQ 1.3"),
+    Field("msq_1_1", requires=IS_IN_SET(yes_no, zero=None),label="آیا شما همراه بیمار زندگی می کنید؟"),
+    Field("msq_1_2", requires=IS_IN_SET(yes_no, zero=None),label="آیا شما در اتاق مشترک با بیمار می خوابید؟"),
+    Field("msq_1_3", requires=IS_IN_SET(yes_no, zero=None),label="آیا بعلت رفتارهای نامناسب وی حین خواب است؟"),
     
     Field("rbd_1", requires=IS_IN_SET(yes_no, zero=None),label="RBD 1."),
     Field("rbd_1_a","string",label="RBD 1. تعداد ماه .الف"),
@@ -449,9 +457,9 @@ db.define_table("physician_section",
     Field("ysb", requires=IS_IN_SET(yes_no, zero=None),label="سابقه یبوست"),
     Field("excess_sleep", requires=IS_IN_SET(yes_no, zero=None),label="خواب آلودگی شدید روزانه"),
     Field("low_blood_p", requires=IS_IN_SET(yes_no, zero=None),label="فشار خون پایین"),
-    Field("erectile", requires=IS_IN_SET(yes_no, zero=None),label="شدید erectile اختلال"),
+    Field("erectile", requires=IS_IN_SET(yes_no, zero=None),label="اختلال erectile شدید"),
     Field("piss", requires=IS_IN_SET(yes_no, zero=None),label="اختلال ادراری"),
-    Field("stress", requires=IS_IN_SET(yes_no, zero=None),label="افسردگی و اضطراب"),
+    #Field("stress", requires=IS_IN_SET(yes_no, zero=None),label="افسردگی و اضطراب"),
     
 
     Field("generation_1", "string",label="تعداد افراد بیمار در نسل اول"),
@@ -578,10 +586,11 @@ db.define_table("physician_section",
     Field("updrs_3_17c", requires=IS_IN_SET(gait, zero=None),label="3.17c.Rest tremor amplitude– RLE"),
     Field("updrs_3_17d", requires=IS_IN_SET(gait, zero=None),label="3.17d.Rest tremor amplitude– LLE"),
     Field("updrs_3_17e", requires=IS_IN_SET(gait, zero=None),label="3.17e.Rest tremor amplitude– Lip/jaw"),
+    Field("updrs_3_18a", requires=IS_IN_SET(gait, zero=None),label="3.18a.Constancy of rest"),
     Field("updrs_total_3", 'integer',label="Total score UPDRS Part III"),
 
 
-    Field("updrs_3_18a", requires=IS_IN_SET(gait, zero=None),label="3.18a.Constancy of rest"),
+    
     Field("updrs_3_18b", requires=IS_IN_SET(yes_no, zero=None),label="Were dyskinesias present؟"),
     Field("updrs_3_18c", requires=IS_IN_SET(yes_no, zero=None),label="Did these movements interfere with ratings؟"),
     Field("updrs_3_18d", requires=IS_IN_SET(hoehn, zero=None),label="Hoehn and Yahr Stage"),
@@ -623,12 +632,12 @@ db.define_table("physician_section",
 #------------------Lab Section ----------------------------
 db.define_table("lab_section", 
     Field("id_code", "string",label="کدملی", writable=False),
-    Field("lab_part", "string",label=" بخش آزمایشگاه"),
-    Field("lab_1", requires=IS_IN_SET(yes_no, zero=None),label=" DNA استخراج"),
     Field("lab_2", requires=IS_IN_SET(blood_type, zero=None),label="خون"),
+    Field("lab_part", "string",label=" سایر"),
+    Field("lab_1", requires=IS_IN_SET(yes_no, zero=None),label=" DNA استخراج"),    
     Field("lab_3", "string",label="حجم خون باقیمانده"),
     Field("lab_4", "string",label="روش"),
-    Field("lab_5", "string",label="DNA عنوان"),    
+    Field("lab_5", "string",label="DNA غلظت"),    
     Field("lab_6", "string",label="DNA حجم میکرولیتر"),
     migrate = False,
     )
