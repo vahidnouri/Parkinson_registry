@@ -1,9 +1,9 @@
 {{extend 'layout.html'}}
 
-
+{{if msg==None:}}
 <div class="container">
     {{=form.custom.begin}}
-        {{for f in form.fields[1:63]:}}
+        {{for f in form.fields[1:62]:}}
         <div class="row mb-2">
             <div class="col-md-3">
                 {{=form.custom.label[f]}}
@@ -20,7 +20,7 @@
             </h3>
         </div>
     
-        {{for f in form.fields[63:140]:}}
+        {{for f in form.fields[62:139]:}}
             <div class="row mb-2">
                 <div class="col-md-3" style="text-align:right">
                     {{=form.custom.label[f]}}
@@ -38,7 +38,7 @@
             </h3>
         </div>
     
-        {{for f in form.fields[140:146]:}}
+        {{for f in form.fields[139:145]:}}
             <div class="row mb-2">
                 <div class="col-md-3" style="text-align:right">
                     {{=form.custom.label[f]}}
@@ -56,7 +56,7 @@
             </h3>
         </div>
     
-        {{for f in form.fields[146:]:}}
+        {{for f in form.fields[145:]:}}
             <div class="row mb-2">
                 <div class="col-md-3" style="text-align:right">
                     {{=form.custom.label[f]}}
@@ -69,7 +69,9 @@
     {{=form.custom.submit}}            
     {{=form.custom.end}}
     </div>
-
+{{else:}}
+{{=msg}}
+{{pass}}
 <script type="text/javascript"></script>
 
 <script>
@@ -86,6 +88,33 @@
             else 
                 $('#physician_section_updrs_3_18c').hide();            
             });     
+
+
+        if($('#physician_section_updrs_3_c').prop('value') == 'بلی')
+                $('#physician_section_updrs_3_c1').show();                
+            
+       else 
+             $('#physician_section_updrs_3_c1').hide();                             
+       $('#physician_section_updrs_3_c').change(function(){
+            if($('#physician_section_updrs_3_c').prop('value') == 'بلی')
+                $('#physician_section_updrs_3_c1').show();            
+            else 
+                $('#physician_section_updrs_3_c1').hide();            
+            });     
+
+
+    //     if($('#physician_section_check_gender').prop('value'))
+    //             $('#physician_section_erectile').show();                
+            
+    //    else 
+    //          $('#physician_section_erectile').hide();                             
+    //    $('#physician_section_check_gender').change(function(){
+    //         if($('#physician_section_check_gender').prop('value'))
+    //             $('#physician_section_erectile').show();            
+    //         else 
+    //             $('#physician_section_erectile').hide();            
+    //         });     
+
             
             
         $('#physician_section_moca_1').add('#physician_section_moca_2').add('#physician_section_moca_3').add('#physician_section_moca_4').add('#physician_section_moca_5').add('#physician_section_moca_6').add('#physician_section_moca_7').add('#physician_section_moca_8').add('#physician_section_moca_9').add('#physician_section_moca_10').change(function(){
@@ -138,7 +167,7 @@
                 $('#physician_section_updrs_total_2').val(updrs_2_1+updrs_2_2+updrs_2_3+updrs_2_4+updrs_2_5+updrs_2_6+updrs_2_7+updrs_2_8+updrs_2_9+updrs_2_10+updrs_2_11+updrs_2_12+updrs_2_13)
             });     
 
-            $('#physician_section_updrs_3_1').add('#physician_section_updrs_3_2').add('#physician_section_updrs_3_3a').add('#physician_section_updrs_3_3b').add('#physician_section_updrs_3_3c').add('#physician_section_updrs_3_3d').add('#physician_section_updrs_3_3e').add('#physician_section_updrs_3_4a').add('#physician_section_updrs_3_4b').add('#physician_section_updrs_3_5a').add('#physician_section_updrs_3_5b').add('#physician_section_updrs_3_6a').add('#physician_section_updrs_3_6b').add('#physician_section_updrs_3_7a').add('#physician_section_updrs_3_7b').add('#physician_section_updrs_3_8a').add('#physician_section_updrs_3_8b').add('#physician_section_updrs_3_9').add('#physician_section_updrs_3_10').add('#physician_section_updrs_3_11').add('#physician_section_updrs_3_12').add('#physician_section_updrs_3_13').add('#physician_section_updrs_3_14').add('#physician_section_updrs_3_15a').add('#physician_section_updrs_3_15b').add('#physician_section_updrs_3_16a').add('#physician_section_updrs_3_16b').add('#physician_section_updrs_3_17a').add('#physician_section_updrs_3_17b').add('#physician_section_updrs_3_17c').add('#physician_section_updrs_3_17d').add('#physician_section_updrs_3_17e').change(function(){
+            $('#physician_section_updrs_3_1').add('#physician_section_updrs_3_2').add('#physician_section_updrs_3_3a').add('#physician_section_updrs_3_3b').add('#physician_section_updrs_3_3c').add('#physician_section_updrs_3_3d').add('#physician_section_updrs_3_3e').add('#physician_section_updrs_3_4a').add('#physician_section_updrs_3_4b').add('#physician_section_updrs_3_5a').add('#physician_section_updrs_3_5b').add('#physician_section_updrs_3_6a').add('#physician_section_updrs_3_6b').add('#physician_section_updrs_3_7a').add('#physician_section_updrs_3_7b').add('#physician_section_updrs_3_8a').add('#physician_section_updrs_3_8b').add('#physician_section_updrs_3_9').add('#physician_section_updrs_3_10').add('#physician_section_updrs_3_11').add('#physician_section_updrs_3_12').add('#physician_section_updrs_3_13').add('#physician_section_updrs_3_14').add('#physician_section_updrs_3_15a').add('#physician_section_updrs_3_15b').add('#physician_section_updrs_3_16a').add('#physician_section_updrs_3_16b').add('#physician_section_updrs_3_17a').add('#physician_section_updrs_3_17b').add('#physician_section_updrs_3_17c').add('#physician_section_updrs_3_17d').add('#physician_section_updrs_3_17e').add('#physician_section_updrs_3_18a').change(function(){
                 updrs_3_1 = isNaN(parseInt($('#physician_section_updrs_3_1').find(":selected").text())) ? 0 : parseInt($('#physician_section_updrs_3_1').find(":selected").text())
                 updrs_3_2 = isNaN(parseInt($('#physician_section_updrs_3_2').find(":selected").text())) ? 0 : parseInt($('#physician_section_updrs_3_2').find(":selected").text())
                 updrs_3_3a = isNaN(parseInt($('#physician_section_updrs_3_3a').find(":selected").text())) ? 0 : parseInt($('#physician_section_updrs_3_3a').find(":selected").text())
@@ -171,9 +200,10 @@
                 updrs_3_17c = isNaN(parseInt($('#physician_section_updrs_3_17c').find(":selected").text())) ? 0 : parseInt($('#physician_section_updrs_3_17c').find(":selected").text())
                 updrs_3_17d = isNaN(parseInt($('#physician_section_updrs_3_17d').find(":selected").text())) ? 0 : parseInt($('#physician_section_updrs_3_17d').find(":selected").text())
                 updrs_3_17e = isNaN(parseInt($('#physician_section_updrs_3_17e').find(":selected").text())) ? 0 : parseInt($('#physician_section_updrs_3_17e').find(":selected").text())
+                updrs_3_18a = isNaN(parseInt($('#physician_section_updrs_3_18a').find(":selected").text())) ? 0 : parseInt($('#physician_section_updrs_3_18a').find(":selected").text())
 
 
-                $('#physician_section_updrs_total_3').val(updrs_3_1+updrs_3_2+updrs_3_3a+updrs_3_3b+updrs_3_3c+updrs_3_3d+updrs_3_3e+updrs_3_4a+updrs_3_4b+updrs_3_5a+updrs_3_5b+updrs_3_6a+updrs_3_6b+updrs_3_7a+updrs_3_7b+updrs_3_8a+updrs_3_8b+updrs_3_9+updrs_3_10+updrs_3_11+updrs_3_12+updrs_3_13+updrs_3_14+updrs_3_15a+updrs_3_15b+updrs_3_16a+updrs_3_16b+updrs_3_17a+updrs_3_17b+updrs_3_17c+updrs_3_17d+updrs_3_17e)
+                $('#physician_section_updrs_total_3').val(updrs_3_1+updrs_3_2+updrs_3_3a+updrs_3_3b+updrs_3_3c+updrs_3_3d+updrs_3_3e+updrs_3_4a+updrs_3_4b+updrs_3_5a+updrs_3_5b+updrs_3_6a+updrs_3_6b+updrs_3_7a+updrs_3_7b+updrs_3_8a+updrs_3_8b+updrs_3_9+updrs_3_10+updrs_3_11+updrs_3_12+updrs_3_13+updrs_3_14+updrs_3_15a+updrs_3_15b+updrs_3_16a+updrs_3_16b+updrs_3_17a+updrs_3_17b+updrs_3_17c+updrs_3_17d+updrs_3_17e+updrs_3_18a)
             });     
 
 

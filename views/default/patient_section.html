@@ -2,7 +2,7 @@
 
 
 
-
+{{if msg==None:}}
 <div class="container">
 {{=form.custom.begin}}
     {{for f in form.fields[1:4]:}}
@@ -18,11 +18,11 @@
 
     <div class="row justify-content-center">
         <h3>
-            پرسشنامه خواب شریک زندگی
+                پرسشنامه خواب (شریک زندگی)
         </h3>
     </div>
 
-    {{for f in form.fields[4:35]:}}
+    {{for f in form.fields[4:16]:}}
         <div class="row mb-2">
             <div class="col-md-3" style="text-align:right">
                 {{=form.custom.label[f]}}
@@ -32,6 +32,25 @@
             </div>
         </div>
     {{pass}}
+
+
+    <div class="row justify-content-center">
+        <h3>
+            MSQ Mayo Clinic Sleep Questionnaire
+        </h3>
+    </div>
+
+    {{for f in form.fields[16:35]:}}
+        <div class="row mb-2">
+            <div class="col-md-3" style="text-align:right">
+                {{=form.custom.label[f]}}
+            </div>
+            <div class="col-md-9">
+                {{=form.custom.widget[f]}}
+            </div>
+        </div>
+    {{pass}}    
+    
 
     <div class="row justify-content-center">
         <h3>
@@ -106,6 +125,10 @@
     {{=form.custom.submit}}
 {{=form.custom.end}}
 </div>
+
+{{else:}}
+{{=msg}}
+{{pass}}
 <script type="text/javascript"></script>
 
 <script>

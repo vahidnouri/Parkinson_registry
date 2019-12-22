@@ -1,4 +1,5 @@
 {{extend 'layout.html'}}
+{{if msg==None:}}
 <div class="container">
 {{=form.custom.begin}}
     <div class="row justify-content-center">
@@ -6,7 +7,7 @@
             اطلاعات بیمار
         </h3>
     </div>
-    {{for f in form.fields[1:21]:}}
+    {{for f in form.fields[1:18]:}}
         <div class="row mb-2">
             <div class="col-md-3">
                 {{=form.custom.label[f]}}
@@ -23,7 +24,7 @@
             </h3>
         </div>
 
-    {{for f in form.fields[21:]:}}
+    {{for f in form.fields[18:55]:}}
         <div class="row mb-2">
             <div class="col-md-3">
                 {{=form.custom.label[f]}}
@@ -33,14 +34,54 @@
             </div>
         </div>
     {{pass}}
+
+    
+    <div class="row justify-content-center">
+        <h3>
+            سابقه اجتماعی
+        </h3>
+    </div>
+
+{{for f in form.fields[55:63]:}}
+    <div class="row mb-2">
+        <div class="col-md-3">
+            {{=form.custom.label[f]}}
+        </div>
+        <div class="col-md-9">
+            {{=form.custom.widget[f]}}
+        </div>
+    </div>
+{{pass}}
+
+
+<div class="row justify-content-center">
+    <h3>
+        سوابق پزشکی
+    </h3>
+</div>
+
+{{for f in form.fields[63:]:}}
+<div class="row mb-2">
+    <div class="col-md-3">
+        {{=form.custom.label[f]}}
+    </div>
+    <div class="col-md-9">
+        {{=form.custom.widget[f]}}
+    </div>
+</div>
+{{pass}}
 {{=form.custom.submit}}
 {{=form.custom.end}}
 </div>
-
+{{else:}}
+{{=msg}}
+{{pass}}
 
 <script type="text/javascript"></script>
 
 <script>
+
+window.history.forward();
 
 if($('#reception_section_fr_4_1').prop('value') == 'بلی')
             $('#reception_section_fr_4_2').show();
@@ -211,7 +252,7 @@ if($('#reception_section_fr_4_1').prop('value') == 'بلی')
 
             });
 
-            if($('#reception_section_fr_17').prop('value') == 'بلی'){
+        if($('#reception_section_fr_17').prop('value') == 'بلی'){
             $('#reception_section_check_id_code').show();
             $('#reception_section_check_name').show();
             }
@@ -229,5 +270,12 @@ if($('#reception_section_fr_4_1').prop('value') == 'بلی')
                    $('#reception_section_check_name').hide();   
             }           
             });
-        
+        if($('#reception_section_sr_jobc').prop('value') == 'سایر')
+            $('#reception_section_other_fields').show();
+       else $('#reception_section_other_fields').hide();
+       $('#reception_section_sr_jobc').change(function(){
+            if($('#reception_section_sr_jobc').prop('value') == 'سایر')
+                $('#reception_section_other_fields').show();
+            else $('#reception_section_other_fields').hide();});
+
         </script>
