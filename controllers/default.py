@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+IP = '192.168.25.32'
+
 permission_denied = lambda: dict(msg='permission denied!')
 
 @auth.requires_login()
@@ -350,7 +352,14 @@ def output():
         for t in range(len(tables)):
             r = db(tables[t][0].id_code == id_code).select().first()
             for f in field_name[t]:
-                if r:
+                if f == 'ped_draw_path' or f == 'mri_path':
+                    if r:
+                        v = str(r).split(':')
+                        v = v[1]
+                        rec.append('=HYPERLINK("FILE:\\\\' + IP + v + '")')
+                    else:
+                        rec.append('')
+                elif r:
                     v = r.get(f, '')
                     v = '' if v == None else str(v)
                     v = v.replace(',', '_')
