@@ -13,8 +13,8 @@ def index():
     user = auth.user
     deletable = auth.user.admin_
 
-    form = FORM(
-        INPUT(_type='submit', _value='CSV', _class='btn btn-secondary float-right'),
+    export = FORM(
+        INPUT(_type='submit', _value='CSV', _class='btn btn-sm mt-1 btn-outline-secondary float-right'),
         _action=URL('default','output.csv')
     )
     if request.extension == 'csv':
@@ -341,7 +341,7 @@ def output():
         (db.genes_91_100,2),
         ]
 
-    field_name = [t[0].fields[t[1]:] for t in tables]
+    field_name = [t[0].fields[t[1]:] for t in tables]    
     labels = [[f.label for f in t[0]][t[1]:] for t in tables]
     header = ','.join([','.join(l) for l in labels])
     data += header
@@ -356,7 +356,7 @@ def output():
                     if r:
                         v = str(r).split(':')
                         v = v[1]
-                        rec.append('=HYPERLINK("FILE:\\\\' + IP + v + '")')
+                        rec.append('=HYPERLINK("file:///' + IP + v + '")')
                     else:
                         rec.append('')
                 elif r:
@@ -364,11 +364,12 @@ def output():
                     v = '' if v == None else str(v)
                     v = v.replace(',', '_')
                     v = v.replace('،', '_')
+                    v = v.replace('-', '_')
                     rec.append(v)
                 else:
                     rec.append('')
         data += ('\n' + ','.join(rec))
-    return data.replace('-', '_')
+    return data
 
 
 def user():
