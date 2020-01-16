@@ -4,14 +4,10 @@
 {{if msg==None:}}
 <div class="container">
     {{=grid}}
-    <div class="container mt-2" style="padding:0; margin:0">
-        {{ if user.admin_ == True: }}
-            {{=form}}
-        {{ pass }}
-    </div>
+
 </div>
 {{else:}}
-{{=msg}}
+    {{=msg}}
 {{pass}}
 
 <script type="text/javascript">
