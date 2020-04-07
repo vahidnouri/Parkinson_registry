@@ -631,7 +631,7 @@ db.define_table("physician_section",
 
 #------------------Lab Section ----------------------------
 db.define_table("lab_section", 
-    Field("id_code", "string",label="کدملی", writable=False),
+    Field("id_code", "string",label="کدملی", writable=False, readable = False),
     Field("lab_2", requires=IS_IN_SET(blood_type, zero=None),label="خون"),
     Field("lab_part", "string",label=" سایر"),
     Field("lab_1", requires=IS_IN_SET(yes_no, zero=None),label=" DNA استخراج"),    
@@ -641,7 +641,8 @@ db.define_table("lab_section",
     Field("lab_6", "string",label="DNA حجم میکرولیتر"),
     migrate = False,
     )
-db.define_table("genes_1_10", Field("project", "string",label="Project",Field("id_code", "string",label="کدملی", writable=False, readable = False),*genes[0:110],migrate = False)
+    # 
+db.define_table("genes_1_10",Field("id_code", "string",label="کدملی"),Field("project", "string",label="Project", writable=False, readable = False),*genes[0:110],migrate = False)
 db.define_table("genes_11_20",Field("id_code", "string",label="کدملی", writable=False, readable = False),*genes[110:220],migrate = False)
 db.define_table("genes_21_30",Field("id_code", "string",label="کدملی", writable=False, readable = False),*genes[220:330],migrate = False)
 db.define_table("genes_31_40",Field("id_code", "string",label="کدملی", writable=False, readable = False),*genes[330:440],migrate = False)
