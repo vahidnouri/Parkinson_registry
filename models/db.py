@@ -642,7 +642,7 @@ db.define_table("lab_section",
     migrate = False,
     )
     # 
-db.define_table("genes_1_10",Field("id_code", "string",label="کدملی"),Field("project", "string",label="Project", writable=False, readable = False),*genes[0:110],migrate = False)
+db.define_table("genes_1_10",Field("id_code", "string",label="کدملی", writable=False, readable = False),Field("project", "string",label="Project"),*genes[0:110],migrate = False)
 db.define_table("genes_11_20",Field("id_code", "string",label="کدملی", writable=False, readable = False),*genes[110:220],migrate = False)
 db.define_table("genes_21_30",Field("id_code", "string",label="کدملی", writable=False, readable = False),*genes[220:330],migrate = False)
 db.define_table("genes_31_40",Field("id_code", "string",label="کدملی", writable=False, readable = False),*genes[330:440],migrate = False)
