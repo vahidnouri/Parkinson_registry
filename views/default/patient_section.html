@@ -133,6 +133,12 @@
 <script type="text/javascript"></script>
 
 <script>
+    function add_view(id,value){
+        document.getElementById(id).removeAttribute("readonly");
+        document.getElementById(id).value = value;
+        document.getElementById(id).readOnly = true; 
+}
+
 
 // Partner sleep
 
@@ -258,7 +264,10 @@
                 b_1_4 = isNaN(parseInt($('#patient_section_b_1_4').find(":selected").text())) ? 0 : parseInt($('#patient_section_b_1_4').find(":selected").text())
                 b_1_5 = isNaN(parseInt($('#patient_section_b_1_5').find(":selected").text())) ? 0 : parseInt($('#patient_section_b_1_5').find(":selected").text())
                 b_1_6 = isNaN(parseInt($('#patient_section_b_1_6').find(":selected").text())) ? 0 : parseInt($('#patient_section_b_1_6').find(":selected").text())
-                $('#patient_section_freezing_total').val(b_1_1+b_1_2+b_1_3+b_1_4+b_1_5+b_1_6)
+                // $('#patient_section_freezing_total').val(b_1_1+b_1_2+b_1_3+b_1_4+b_1_5+b_1_6)
+                x = b_1_1+b_1_2+b_1_3+b_1_4+b_1_5+b_1_6
+                add_view("patient_section_freezing_total",x)
+
             });
 
 
@@ -284,7 +293,10 @@
                 bai_19 = isNaN(parseInt($('#patient_section_bai_19').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_19').find(":selected").text())
                 bai_20 = isNaN(parseInt($('#patient_section_bai_20').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_20').find(":selected").text())
                 bai_21 = isNaN(parseInt($('#patient_section_bai_21').find(":selected").text())) ? 0 : parseInt($('#patient_section_bai_21').find(":selected").text())
-                $('#patient_section_bai_total').val(bai_1+bai_2+bai_3+bai_4+bai_5+bai_6+bai_7+bai_8+bai_9+bai_10+bai_11+bai_12+bai_13+bai_14+bai_15+bai_16+bai_17+bai_18+bai_19+bai_20+bai_21)
+                
+                // $('#patient_section_bai_total').val(bai_1+bai_2+bai_3+bai_4+bai_5+bai_6+bai_7+bai_8+bai_9+bai_10+bai_11+bai_12+bai_13+bai_14+bai_15+bai_16+bai_17+bai_18+bai_19+bai_20+bai_21)
+                x = bai_1+bai_2+bai_3+bai_4+bai_5+bai_6+bai_7+bai_8+bai_9+bai_10+bai_11+bai_12+bai_13+bai_14+bai_15+bai_16+bai_17+bai_18+bai_19+bai_20+bai_21
+                add_view("patient_section_freezing_total",x)
             });   
 
 
