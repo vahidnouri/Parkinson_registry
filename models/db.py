@@ -212,6 +212,7 @@ db.define_table("principal_info",
     migrate = False,
     fake_migrate=False,
     )
+db.principal_info.id_code.requires=IS_NOT_IN_DB(db,'principal_info.id_code')    
 # -----------------------Reception Section ------------------------------
 
 db.define_table("reception_section", 
